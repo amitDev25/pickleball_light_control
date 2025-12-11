@@ -29,6 +29,16 @@
             margin-bottom: 20px;
         }
 
+        /* Responsive Image */
+        .panel img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-height: 260px;      /* prevents overly tall image */
+            object-fit: cover;      /* keeps it clean */
+        }
+
         .btn-group {
             display: flex;
             flex-wrap: wrap;
@@ -80,6 +90,10 @@
                 font-size: 15px;
                 padding: 12px;
             }
+
+            .panel img {
+                max-height: 200px;
+            }
         }
     </style>
 </head>
@@ -87,6 +101,8 @@
 
 <div class="panel">
     <h2>Pickleball Court Light Control</h2>
+
+    <img src="pickleball_court.jpg" alt="Pickleball Court">
 
     <div class="btn-group">
         <button class="on" onclick="sendCmd('switchon1')">Light ON 1</button>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>STM32 Control Panel</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .panel {
+            background: white;
+            width: 400px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            width: 160px;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            margin: 10px;
+            cursor: pointer;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .on {
+            background: #28a745;
+        }
+
+        .off {
+            background: #dc3545;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 12px;
+            background: #eee;
+            border-radius: 6px;
+            display: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="panel">
+    <h2>Pickleball Light Control</h2>
+
+    <button class="on" onclick="sendCmd('switchon1')">Switch ON 1</button>
+    <button class="on" onclick="sendCmd('switchon2')">Switch ON 2</button>
+
+    <button class="off" onclick="sendCmd('switchoff1')">Switch OFF 1</button>
+    <button class="off" onclick="sendCmd('switchoff2')">Switch OFF 2</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    async function sendCmd(cmd) {
+        const resultBox = document.getElementById("result");
+        resultBox.style.display = "block";
+        resultBox.innerHTML = "Sending request...";
+
+        // Change to your ngrok/VSC tunnel public URL
+        const BASE_URL = "https://d5qb8lt0-3000.inc1.devtunnels.ms/api/";
+
+        try {
+            let res = await fetch(BASE_URL + cmd);
+
+            if (!res.ok) {
+                resultBox.innerHTML = "Error: Cannot reach server";
+                return;
+            }
+
+            let data = await res.text();
+            resultBox.innerHTML = "Response: " + data;
+
+        } catch (err) {
+            resultBox.innerHTML = "Failed: " + err.message;
+        }
+    }
+</script>
+
+</body>
+</html>

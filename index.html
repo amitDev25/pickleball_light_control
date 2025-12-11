@@ -2,34 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>STM32 Control Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickleball Court Control Panel</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f2f2f2;
-            padding: 40px;
+            padding: 20px;
+            margin: 0;
             text-align: center;
         }
 
         .panel {
             background: white;
-            width: 400px;
+            max-width: 420px;
+            width: 90%;
             margin: auto;
             padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
         }
 
         button {
-            width: 160px;
-            padding: 12px;
+            flex: 1 1 calc(50% - 12px);
+            padding: 14px;
             font-size: 16px;
             border: none;
-            margin: 10px;
             cursor: pointer;
             color: white;
-            border-radius: 6px;
+            border-radius: 8px;
+            min-width: 120px;
         }
 
         .on {
@@ -46,24 +61,39 @@
 
         #result {
             margin-top: 20px;
-            padding: 12px;
+            padding: 14px;
             background: #eee;
-            border-radius: 6px;
+            border-radius: 8px;
             display: none;
             font-size: 16px;
+            word-wrap: break-word;
+        }
+
+        /* 📱 Mobile Optimization */
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            button {
+                flex: 1 1 100%;
+                font-size: 15px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="panel">
-    <h2>Pickleball Light Control</h2>
+    <h2>Pickleball Court Light Control</h2>
 
-    <button class="on" onclick="sendCmd('switchon1')">Switch ON 1</button>
-    <button class="on" onclick="sendCmd('switchon2')">Switch ON 2</button>
-
-    <button class="off" onclick="sendCmd('switchoff1')">Switch OFF 1</button>
-    <button class="off" onclick="sendCmd('switchoff2')">Switch OFF 2</button>
+    <div class="btn-group">
+        <button class="on" onclick="sendCmd('switchon1')">Light ON 1</button>
+        <button class="on" onclick="sendCmd('switchon2')">Light ON 2</button>
+        <button class="off" onclick="sendCmd('switchoff1')">Light OFF 1</button>
+        <button class="off" onclick="sendCmd('switchoff2')">Light OFF 2</button>
+    </div>
 
     <div id="result"></div>
 </div>
@@ -74,7 +104,6 @@
         resultBox.style.display = "block";
         resultBox.innerHTML = "Sending request...";
 
-        // Change to your ngrok/VSC tunnel public URL
         const BASE_URL = "https://d5qb8lt0-3000.inc1.devtunnels.ms/api/";
 
         try {
